@@ -1,0 +1,60 @@
+description: >
+  Setup a python environment and install the packages for your project either globally with pip or in a virtualenv with poetry or pipenv.
+  With pip as pkg-manager, the command will assume `-r requirements.txt`.
+  With poetry as pkg-manager, the command will assume `--no-ansi`.
+  For pipenv, no args are provided. Expect the default caching locations for packages and virtualenvs on a debian system with pyenv.
+
+parameters:
+  username:
+    type: string
+    default: ""
+    description: Username for accessing git repository
+  ssh-file-location:
+    type: string
+    default: ""
+    description: SSH File location
+  password:
+    type: string
+    default: ""
+    description: Password / Access Token to for github repository or ssh file
+  changelog-file-location:
+    type: string
+    description: Location of changelog file
+    default: ""
+  provider:
+    type: enum
+    enum: [ "", "github", "gitlab", "bitbucket" ]
+    default: ""
+    description: Git provider rest API ot use. Ignore if you'd like to use regular git
+  email:
+    type: string
+    default: ""
+    description: Email to use with git provider
+  origin:
+    type: string
+    description: Origin of git repo
+    default: ""
+  repo:
+    type: string
+    default: ""
+    description: Owner and Repository Name
+
+steps:
+  - run: GO111MODULE=on go get -u github.com/sanjP10/release
+  - when:
+      condition:
+        not:
+            - equal: ["gitlab", << parameters.provider >>]
+            - equal: ["", << parameters.provider >>]
+      steps:
+        - run: release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+  - when:
+      condition:
+        equal: ["gitlab", << parameters.provider >>]
+      steps:
+        - run: release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+  - when:
+      condition:
+        equal: ["", << parameters.provider >>]
+      steps:
+        - run: release validate -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1
