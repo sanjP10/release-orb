@@ -46,9 +46,10 @@ steps:
         GO111MODULE=on go get -u github.com/sanjP10/release
   - when:
       condition:
-        and:
-          - equal: ["gitlab", << parameters.provider >>]
-          - equal: ["", << parameters.provider >>]
+        not:
+          and:
+            - equal: ["gitlab", << parameters.provider >>]
+            - equal: ["", << parameters.provider >>]
       steps:
         - run:
             name: Validate tag
