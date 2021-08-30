@@ -1,0 +1,70 @@
+description: >
+  Creating a tag from the changelog file
+
+parameters:
+  username:
+    type: string
+    default: ""
+    description: Username for accessing git repository
+  ssh-file-location:
+    type: string
+    default: ""
+    description: SSH File location
+  password:
+    type: string
+    default: ""
+    description: Password / Access Token to for github repository or ssh file
+  changelog-file-location:
+    type: string
+    description: Location of changelog file
+    default: ""
+  provider:
+    type: enum
+    enum: [ "", "github", "gitlab", "bitbucket" ]
+    default: ""
+    description: Git provider rest API ot use. Ignore if you'd like to use regular git
+  email:
+    type: string
+    default: ""
+    description: Email to use with git provider
+  origin:
+    type: string
+    description: Origin of git repo
+    default: ""
+  repo:
+    type: string
+    default: ""
+    description: Owner and Repository Name
+
+steps:
+  - run:
+      name: Install release
+      command: |
+        GO111MODULE=on go get -u github.com/sanjP10/release
+  - when:
+      condition:
+        not:
+          and:
+            - equal: ["gitlab", << parameters.provider >>]
+            - equal: ["", << parameters.provider >>]
+      steps:
+        - run:
+            name: Create tag
+            command: |
+              release create -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+  - when:
+      condition:
+        equal: ["gitlab", << parameters.provider >>]
+      steps:
+        - run:
+            name: Create tag
+            command: |
+              release create -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+  - when:
+      condition:
+        equal: ["", << parameters.provider >>]
+      steps:
+        - run:
+            name: Create tag
+            command: |
+              release create -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1

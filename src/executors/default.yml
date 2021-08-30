@@ -1,0 +1,10 @@
+description: |
+  "The official Go Docker image on Docker Hub.
+  Found here: https://hub.docker.com/_/golang"
+parameters:
+  tag:
+    description: "The `cimg/go` Docker image version tag."
+    type: string
+    default: "1.17"
+docker:
+  - image: golang:<< parameters.tag >>

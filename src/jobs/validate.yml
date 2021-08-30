@@ -1,0 +1,52 @@
+description: |
+  Job to checkout and validate a tag from the changelog file
+parameters:
+  username:
+    type: string
+    default: ""
+    description: Username for accessing git repository
+  ssh-file-location:
+    type: string
+    default: ""
+    description: SSH File location
+  password:
+    type: string
+    default: ""
+    description: Password / Access Token for ssh file or git repository
+  changelog-file-location:
+    type: string
+    description: Location of changelog file
+    default: ""
+  provider:
+    type: enum
+    enum: [ "", "github", "gitlab", "bitbucket" ]
+    default: ""
+    description: Git provider rest API ot use. Ignore if you'd like to use regular git
+  email:
+    type: string
+    default: ""
+    description: Email to use with git provider
+  origin:
+    type: string
+    description: Origin of git repo
+    default: ""
+  repo:
+    type: string
+    default: ""
+    description: Owner and Repository Name
+
+
+executor:
+  name: default
+
+steps:
+  - checkout
+  - validate:
+      username: << parameters.username >>
+      ssh-file-location: << parameters.ssh-file-location >>
+      password: << parameters.password >>
+      changelog-file-location: << parameters.changelog-file-location >>
+      provider: << parameters.provider >>
+      email: << parameters.email >>
+      origin: << parameters.origin >>
+      repo: << parameters.repo >>
