@@ -40,21 +40,33 @@ parameters:
     description: Owner and Repository Name
 
 steps:
-  - run: GO111MODULE=on go get -u github.com/sanjP10/release
+  - run:
+      name: Install release
+      command: |
+        GO111MODULE=on go get -u github.com/sanjP10/release
   - when:
       condition:
-        not:
-            - equal: ["gitlab", << parameters.provider >>]
-            - equal: ["", << parameters.provider >>]
+        and:
+          - equal: ["gitlab", << parameters.provider >>]
+          - equal: ["", << parameters.provider >>]
       steps:
-        - run: release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+        - run:
+            name: Validate tag
+            command: |
+              release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
   - when:
       condition:
         equal: ["gitlab", << parameters.provider >>]
       steps:
-        - run: release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+        - run:
+            name: Validate tag
+            command: |
+              release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
   - when:
       condition:
         equal: ["", << parameters.provider >>]
       steps:
-        - run: release validate -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1
+        - run:
+            name: Validate tag
+            command: |
+              release validate -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1
