@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  release: sanjp10/release-orb@<<pipeline.parameters.dev-orb-version>>
+  release: sanjp10/release@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
 
 # Pipeline Parameters
@@ -18,7 +18,7 @@ parameters:
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   integration-test-1:
-    executor: release-orb/default
+    executor: release/default
     steps:
       - checkout
       # "greet" is a sample command packaged with this orb config.
@@ -40,7 +40,7 @@ workflows:
       - orb-tools/pack # Pack orb source
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
-          orb-name: sanjp10/release-orb
+          orb-name: sanjp10/release
           context: orb-publisher
           requires:
             - orb-tools/lint
@@ -70,7 +70,7 @@ workflows:
       # be skipped.
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
-          orb-name: sanjp10/release-orb
+          orb-name: sanjp10/release
           context: orb-publisher
           add-pr-comment: false
           fail-if-semver-not-indicated: true
