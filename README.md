@@ -1,4 +1,4 @@
-# Release Orb 
+# Release Orb
 ![CircleCI Build Status](https://circleci.com/gh/sanjP10/release-orb.svg?style=shield "CircleCI Build Status") [![CircleCI Orb Version](https://badges.circleci.com/orbs/sanjp10/release.svg)][reg-page] [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/sanjP10/release-orb/main/LICENSE)
 
 This is an action that enables the use of the tool [release](https://github.com/sanjP10/release) in a github action.
