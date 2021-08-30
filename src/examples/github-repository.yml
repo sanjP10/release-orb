@@ -17,10 +17,7 @@ usage:
             changelog-file-location: << location of changelog file in repository after checkout >>
             provider: github
             repo: << owner/repo of repository >>
-            context: << context with username and password >>
         - create-tag
-            context:
-              - << context with username and password >>
 
   jobs:
     create-tag:

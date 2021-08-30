@@ -17,10 +17,7 @@ usage:
             email: << email to associate with tag >>
             changelog-file-location: << location of changelog file in repository after checkout >>
             origin: << https url of git repository >>
-            context: << context with username and password >>
         - create-tag
-            context:
-              - << context with username and password >>
   jobs:
     create-tag:
       executor: release/default
