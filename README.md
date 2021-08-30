@@ -16,5 +16,4 @@ Follow the official publishing orb [documents](https://circleci.com/docs/2.0/cre
 
 [CircleCI Orb Registry Page][reg-page] - The official registry page of this orb for all versions, executors, commands, and jobs described.
 
-
 [reg-page]: https://circleci.com/orbs/registry/orb/sanjp10/release
