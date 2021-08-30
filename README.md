@@ -8,6 +8,10 @@ This exposes the use of the tool with a github action interface.
 
 Example use as well as a list of available executors, commands, and jobs are available on this orb's [registry page][reg-page].
 
+## Publishing Orb
+
+Follow the official publishing orb [documents](https://circleci.com/docs/2.0/creating-orbs/#issue-a-new-release)
+
 ## Resources
 
 [CircleCI Orb Registry Page][reg-page] - The official registry page of this orb for all versions, executors, commands, and jobs described.
