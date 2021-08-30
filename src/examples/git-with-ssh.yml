@@ -1,5 +1,5 @@
 description: >
-  Sample example description.
+  Example for use with a git repository not using a provider via SSH, either using a job or a command
 # Provide a use-case based example for using this orb.
 # Everything in the `usage` section will be displayed in the orb registry.
 # Comments are not retained.
@@ -17,8 +17,11 @@ usage:
             password: << password associated with username >>
             email: << email to associate with tag >>
             changelog-file-location: << location of changelog file in repository after checkout >>
-            origin: << https origin of git repository >>
+            origin: << SSH origin of git repository >>
+            context: << context with username and password >>
         - create-tag
+            context:
+              - << context with username and password >>
 
   jobs:
     create-tag:
