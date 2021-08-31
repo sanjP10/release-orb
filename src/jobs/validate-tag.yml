@@ -1,5 +1,6 @@
 description: |
   Job to checkout and validate a tag from the changelog file
+
 parameters:
   username:
     type: string
@@ -37,7 +38,7 @@ parameters:
   host:
     type: string
     default: ""
-    description: host of private git provider instance
+    description: Host of private git provider instance
   install:
     type: boolean
     default: true

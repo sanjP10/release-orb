@@ -38,7 +38,7 @@ parameters:
   host:
     type: string
     default: ""
-    description: host of private git provider instance
+    description: Host of private git provider instance
   install:
     type: boolean
     default: true
@@ -56,7 +56,7 @@ steps:
       condition:
         not:
           and:
-            - equal: ["gitlab", << parameters.provider >>]
+            - equal: [ "gitlab", << parameters.provider >> ]
             - not: << parameters.provider >>
             - not: << parameters.host >>
       steps:
@@ -70,7 +70,7 @@ steps:
         and:
           - not:
               and:
-                - equal: ["gitlab", << parameters.provider >>]
+                - equal: [ "gitlab", << parameters.provider >> ]
                 - not: << parameters.provider >>
           - << parameters.host >>
       steps:
@@ -82,7 +82,7 @@ steps:
   - when:
       condition:
         and:
-          - equal: ["gitlab", << parameters.provider >>]
+          - equal: [ "gitlab", << parameters.provider >> ]
           - << parameters.host >>
       steps:
         - run:
@@ -93,7 +93,7 @@ steps:
   - when:
       condition:
         and:
-          - equal: ["gitlab", << parameters.provider >>]
+          - equal: [ "gitlab", << parameters.provider >> ]
           - not: << parameters.host >>
       steps:
         - run:

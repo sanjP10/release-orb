@@ -38,7 +38,7 @@ parameters:
   host:
     type: string
     default: ""
-    description: host of private git provider instance
+    description: Host of private git provider instance
   install:
     type: boolean
     default: true

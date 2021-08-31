@@ -34,12 +34,12 @@ jobs:
           provider: github
           repo: sanjP10/release-orb
       - attach_workspace:
-            # Must be absolute path or relative path from working_directory
-            at: ./
+          at: ./
       - run:
           name: Echo version
           command: |
-            cat version.txt
+            version=`cat version.txt`
+            [[ -z "$version" ]] && { echo "Version file is empty" ; exit 1; }
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.

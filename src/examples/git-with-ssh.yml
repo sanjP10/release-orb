@@ -18,6 +18,13 @@ usage:
             email: << email to associate with tag >>
             changelog-file-location: << location of changelog file in repository after checkout >>
             origin: << SSH origin of git repository >>
+        # Command will attach the version in a version.txt file which you can access as the following for use with other taggable resources e.g. docker
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Print version
+            command: |
+              cat version.txt
         - create-tag
 
   jobs:
@@ -32,3 +39,10 @@ usage:
             email: << email to associate with tag >>
             changelog-file-location: << location of changelog file in repository after checkout >>
             origin: << https origin of git repository >>
+        # Command will attach the version in a version.txt file which you can access as the following for use with other taggable resources e.g. docker
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Print version
+            command: |
+              cat version.txt

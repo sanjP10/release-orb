@@ -56,7 +56,7 @@ steps:
       condition:
         not:
           and:
-            - equal: ["gitlab", << parameters.provider >>]
+            - equal: [ "gitlab", << parameters.provider >> ]
             - not: << parameters.provider >>
             - not: << parameters.host >>
       steps:
@@ -68,11 +68,11 @@ steps:
   - when:
       condition:
         and:
-         - not:
-            and:
-              - equal: ["gitlab", << parameters.provider >>]
-              - not: << parameters.provider >>
-         - << parameters.host >>
+          - not:
+              and:
+                - equal: [ "gitlab", << parameters.provider >> ]
+                - not: << parameters.provider >>
+          - << parameters.host >>
       steps:
         - run:
             name: Validate tag
@@ -82,8 +82,8 @@ steps:
   - when:
       condition:
         and:
-         - equal: ["gitlab", << parameters.provider >>]
-         - << parameters.host >>
+          - equal: [ "gitlab", << parameters.provider >> ]
+          - << parameters.host >>
       steps:
         - run:
             name: Validate tag
@@ -93,7 +93,7 @@ steps:
   - when:
       condition:
         and:
-          - equal: ["gitlab", << parameters.provider >>]
+          - equal: [ "gitlab", << parameters.provider >> ]
           - not: << parameters.host >>
       steps:
         - run:
@@ -123,11 +123,6 @@ steps:
             command: |
               version=$(release validate -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
               echo $version >> version.txt
-  - run:
-      name: Save to file
-      command: |
-        value=`cat version.txt`
-        echo $value
   - persist_to_workspace:
       root: .
       # Must be relative path from root
