@@ -35,12 +35,23 @@ parameters:
     type: string
     default: ""
     description: Owner and Repository Name
+  host:
+    type: string
+    default: ""
+    description: host of private git provider instance
+  install:
+    type: boolean
+    default: true
+    description: Install release using go get
 
 steps:
-  - run:
-      name: Install release
-      command: |
-        GO111MODULE=on go get -u github.com/sanjP10/release
+  - when:
+      condition: << parameters.install >>
+      steps:
+        - run:
+            name: Install release
+            command: |
+               GO111MODULE=on go get -u github.com/sanjP10/release
   - when:
       condition:
         not:
@@ -51,7 +62,7 @@ steps:
         - run:
             name: Create tag
             command: |
-              release create -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+              version=$(release create -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >> -host << parameters.host >>) || exit $?
   - when:
       condition:
         equal: ["gitlab", << parameters.provider >>]
@@ -59,7 +70,7 @@ steps:
         - run:
             name: Create tag
             command: |
-              release create -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+              version=$(release create -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >> -host << parameters.host >>) || exit $?
   - when:
       condition:
         equal: ["", << parameters.provider >>]
@@ -67,4 +78,9 @@ steps:
         - run:
             name: Create tag
             command: |
-              release create -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1
+              version=$(release create -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
+  - run:
+      name: Save version to a file
+      command: |
+        echo "$version" >> version.txt
+
