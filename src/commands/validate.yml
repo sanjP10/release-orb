@@ -124,11 +124,8 @@ steps:
   - run:
       name: Save to file
       command: |
-        ls
-  - run:
-      name: Save to file
-      command: |
-        cat version.txt
+        value=$(<version.txt)
+        echo $value
   - persist_to_workspace:
       root: .
       # Must be relative path from root
