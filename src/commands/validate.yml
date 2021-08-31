@@ -120,11 +120,12 @@ steps:
   - run:
       name: Save to file
       command: |
+        echo $version
         echo $version >> version.txt
   - run:
       name: Save to file
       command: |
-        value=$(<version.txt)
+        value=`cat version.txt`
         echo $value
   - persist_to_workspace:
       root: .
