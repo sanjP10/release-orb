@@ -65,6 +65,7 @@ steps:
             command: |
               version=$(release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>) || exit $?
               echo $version >> version.txt
+              cat version.txt
   - when:
       condition:
         and:
@@ -79,6 +80,7 @@ steps:
             command: |
               version=$(release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>  -host << parameters.host >>) || exit $?
               echo $version >> version.txt
+              cat version.txt
   - when:
       condition:
         and:
@@ -90,6 +92,7 @@ steps:
             command: |
               version=$(release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >> -host << parameters.host >>) || exit $?
               echo $version >> version.txt
+              cat version.txt
   - when:
       condition:
         and:
@@ -101,6 +104,7 @@ steps:
             command: |
               version=$(release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>) || exit $?
               echo $version >> version.txt
+              cat version.txt
   - when:
       condition:
         and:
@@ -112,6 +116,7 @@ steps:
             command: |
               version=$(release validate -username << parameters.username >> -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
               echo $version >> version.txt
+              cat version.txt
   - when:
       condition:
         and:
@@ -123,6 +128,7 @@ steps:
             command: |
               version=$(release validate -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
               echo $version >> version.txt
+              cat version.txt
   - persist_to_workspace:
       root: .
       paths:
