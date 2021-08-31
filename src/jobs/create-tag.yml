@@ -35,6 +35,14 @@ parameters:
     type: string
     default: ""
     description: Owner and Repository Name
+  host:
+    type: string
+    default: ""
+    description: host of private git provider instance
+  install:
+    type: boolean
+    default: true
+    description: Install release using go get
 
 executor:
   name: default
@@ -50,3 +58,5 @@ steps:
       email: << parameters.email >>
       origin: << parameters.origin >>
       repo: << parameters.repo >>
+      host: << parameters.host >>
+      install: << parameters.install >>

@@ -25,7 +25,7 @@ usage:
       executor: release/default
       steps:
         - checkout
-        - release/create:
+        - release/create-tag:
             username: << username for provider >>
             ssh-file-location: << location of ssh file >>
             password: << password associated with username >>

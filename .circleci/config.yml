@@ -33,6 +33,10 @@ jobs:
           changelog-file-location: ./CHANGELOG.md
           provider: github
           repo: sanjP10/release-orb
+      - run:
+          name: test
+          command: |
+            echo $version
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
@@ -64,11 +68,7 @@ workflows:
       - integration-test-1:
           context:
             - release
-      - run:
-          name: test
-          command: |
-            echo $version
-      - release/validate:
+      - release/validate-tag:
           context: release
           username: $GITHUB_USERNAME
           password: $GITHUB_TOKEN
@@ -96,7 +96,7 @@ workflows:
             branches:
               only:
                 - main
-      - release/create:
+      - release/create-tag:
           context: release
           username: $GITHUB_USERNAME
           password: $GITHUB_TOKEN

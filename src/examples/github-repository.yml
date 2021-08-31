@@ -24,7 +24,7 @@ usage:
       executor: release/default
       steps:
         - checkout
-        - release/create:
+        - release/create-tag:
             username: << username for provider >>
             password: << password / access token for provider >>
             changelog-file-location: << location of changelog file in repository after checkout >>

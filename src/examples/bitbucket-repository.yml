@@ -21,7 +21,7 @@ usage:
       executor: release/default
       steps:
         - checkout
-        - release/create:
+        - release/create-tag:
             username: << username for bitbucket >>
             password: << password / access token for bitbucket >>
             changelog-file-location: << location of changelog file in repository after checkout >>
