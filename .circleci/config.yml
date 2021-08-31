@@ -33,10 +33,13 @@ jobs:
           changelog-file-location: ./CHANGELOG.md
           provider: github
           repo: sanjP10/release-orb
+      - attach_workspace:
+            # Must be absolute path or relative path from working_directory
+            at: /tmp
       - run:
-          name: test
+          name: Echo version
           command: |
-            echo $version
+            cat /tmp/version.txt
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
