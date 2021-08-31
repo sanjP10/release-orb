@@ -120,7 +120,7 @@ steps:
   - run:
       name: Save to file
       command: |
-        ehco $version >> /tmp/version.txt
+        echo $version >> /tmp/version.txt
   - persist_to_workspace:
       root: /tmp/
       # Must be relative path from root
