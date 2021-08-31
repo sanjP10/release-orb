@@ -35,6 +35,10 @@ parameters:
     type: string
     default: ""
     description: Owner and Repository Name
+  host:
+    type: string
+    default: ""
+    description: Host of private git provider instance
   install:
     type: boolean
     default: true
