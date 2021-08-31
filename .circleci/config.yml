@@ -39,9 +39,11 @@ jobs:
           name: Echo version
           command: |
             version=`cat version.txt`
-            cat version.txt
             echo $version
-            [[ -z "$version" ]] && { echo "Version file is empty" ; exit 1; }
+            if [[ -z "$version" ]]; then
+                echo "Version was not attached succesfully to workspace"
+                exit 1
+            fi
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
