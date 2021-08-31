@@ -121,6 +121,14 @@ steps:
       name: Save to file
       command: |
         echo $version >> version.txt
+  - run:
+      name: Save to file
+      command: |
+        ls
+  - run:
+      name: Save to file
+      command: |
+        cat version.txt
   - persist_to_workspace:
       root: .
       # Must be relative path from root
