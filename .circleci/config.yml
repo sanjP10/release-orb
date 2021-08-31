@@ -39,6 +39,8 @@ jobs:
           name: Echo version
           command: |
             version=`cat version.txt`
+            cat version.txt
+            echo $version
             [[ -z "$version" ]] && { echo "Version file is empty" ; exit 1; }
 
 workflows:
