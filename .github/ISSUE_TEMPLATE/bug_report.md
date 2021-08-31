@@ -1,9 +1,9 @@
 ---
-name: "\U0001F41E  Bug report"
+name: "Bug report"
 about: Report any bugs encountered while using this orb.
 title: ''
 labels: bug
-assignees: ''
+assignees: 'sanjP10'
 
 ---
 
