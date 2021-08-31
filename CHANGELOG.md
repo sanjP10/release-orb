@@ -3,7 +3,7 @@
 ## 2.0.0
 ### Added
 * Ability for private hosts
-* Saving `version.txt` to a persistant workspace
+* Saving `version.txt` to a persistent workspace
 
 ### Fixed
 * Usage of empty fields
