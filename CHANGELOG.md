@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1
+### Fixed
+* Fixed examples
+
 ## 2.0.0
 ### Added
 * Ability for private hosts
