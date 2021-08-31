@@ -125,6 +125,5 @@ steps:
               echo $version >> version.txt
   - persist_to_workspace:
       root: .
-      # Must be relative path from root
       paths:
         - version.txt

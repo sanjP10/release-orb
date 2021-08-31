@@ -36,7 +36,7 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          name: Echo version
+          name: Verify Version written to version.txt in workspace
           command: |
             version=`cat version.txt`
             echo $version
