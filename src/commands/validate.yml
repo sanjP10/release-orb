@@ -57,15 +57,31 @@ steps:
         not:
           and:
             - equal: ["gitlab", << parameters.provider >>]
-            - equal: ["", << parameters.provider >>]
+            - not: << parameters.provider >>
+            - not: << parameters.host >>
       steps:
         - run:
             name: Validate tag
             command: |
-              version=$(release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >> -host << parameters.host >>) || exit $?
+              version=$(release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>) || exit $?
   - when:
       condition:
-        equal: ["gitlab", << parameters.provider >>]
+        and:
+         - not:
+            and:
+              - equal: ["gitlab", << parameters.provider >>]
+              - equal: ["", << parameters.provider >>]
+         - << parameters.host >>
+      steps:
+        - run:
+            name: Validate tag
+            command: |
+              version=$(release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>  -host << parameters.host >>) || exit $?
+  - when:
+      condition:
+        and:
+         - equal: ["gitlab", << parameters.provider >>]
+         - << parameters.host >>
       steps:
         - run:
             name: Validate tag
@@ -73,7 +89,29 @@ steps:
               version=$(release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >> -host << parameters.host >>) || exit $?
   - when:
       condition:
-        equal: ["", << parameters.provider >>]
+        and:
+          - equal: ["gitlab", << parameters.provider >>]
+          - not: << parameters.host >>
+      steps:
+        - run:
+            name: Validate tag
+            command: |
+              version=$(release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>) || exit $?
+  - when:
+      condition:
+        and:
+          - not: << parameters.provider >>
+          - not: << parameters.ssh-file-location >>
+      steps:
+        - run:
+            name: Validate tag
+            command: |
+              version=$(release validate -username << parameters.username >> -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
+  - when:
+      condition:
+        and:
+          - not: << parameters.provider >>
+          - << parameters.ssh-file-location >>
       steps:
         - run:
             name: Validate tag
