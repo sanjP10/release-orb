@@ -35,7 +35,7 @@ jobs:
           repo: sanjP10/release-orb
       - attach_workspace:
             # Must be absolute path or relative path from working_directory
-            at: /tmp
+            at: /tmp/
       - run:
           name: Echo version
           command: |
