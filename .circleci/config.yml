@@ -33,6 +33,17 @@ jobs:
           changelog-file-location: ./CHANGELOG.md
           provider: github
           repo: sanjP10/release-orb
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Verify Version written to version.txt in workspace
+          command: |
+            version=`cat version.txt`
+            echo $version
+            if [[ -z "$version" ]]; then
+                echo "Version was not attached succesfully to workspace"
+                exit 1
+            fi
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
@@ -64,7 +75,7 @@ workflows:
       - integration-test-1:
           context:
             - release
-      - release/validate:
+      - release/validate-tag:
           context: release
           username: $GITHUB_USERNAME
           password: $GITHUB_TOKEN
@@ -87,12 +98,12 @@ workflows:
           publish-version-tag: false
           requires:
             - integration-test-1
-            - release/validate
+            - release/validate-tag
           filters:
             branches:
               only:
                 - main
-      - release/create:
+      - release/create-tag:
           context: release
           username: $GITHUB_USERNAME
           password: $GITHUB_TOKEN

@@ -1,5 +1,5 @@
 description: >
-  Validating tag provided in changelog file is valid in semver syntax
+  Validating tag provided in changelog file is valid in semver syntax. Save version to workspace /tmp/version.txt
 
 parameters:
   username:
@@ -35,36 +35,101 @@ parameters:
     type: string
     default: ""
     description: Owner and Repository Name
+  host:
+    type: string
+    default: ""
+    description: Host of private git provider instance
+  install:
+    type: boolean
+    default: true
+    description: Install release using go get
 
 steps:
-  - run:
-      name: Install release
-      command: |
-        GO111MODULE=on go get -u github.com/sanjP10/release
+  - when:
+      condition: << parameters.install>>
+      steps:
+        - run:
+            name: Install release
+            command: |
+              GO111MODULE=on go get -u github.com/sanjP10/release
   - when:
       condition:
         not:
           and:
-            - equal: ["gitlab", << parameters.provider >>]
-            - equal: ["", << parameters.provider >>]
+            - equal: [ "gitlab", << parameters.provider >> ]
+            - not: << parameters.provider >>
+            - not: << parameters.host >>
       steps:
         - run:
             name: Validate tag
             command: |
-              release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+              version=$(release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>) || exit $?
+              echo $version >> version.txt
+              cat version.txt
   - when:
       condition:
-        equal: ["gitlab", << parameters.provider >>]
+        and:
+          - not:
+              and:
+                - equal: [ "gitlab", << parameters.provider >> ]
+                - not: << parameters.provider >>
+          - << parameters.host >>
       steps:
         - run:
             name: Validate tag
             command: |
-              release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>
+              version=$(release validate -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>  -host << parameters.host >>) || exit $?
+              echo $version >> version.txt
+              cat version.txt
   - when:
       condition:
-        equal: ["", << parameters.provider >>]
+        and:
+          - equal: [ "gitlab", << parameters.provider >> ]
+          - << parameters.host >>
       steps:
         - run:
             name: Validate tag
             command: |
-              release validate -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1
+              version=$(release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >> -host << parameters.host >>) || exit $?
+              echo $version >> version.txt
+              cat version.txt
+  - when:
+      condition:
+        and:
+          - equal: [ "gitlab", << parameters.provider >> ]
+          - not: << parameters.host >>
+      steps:
+        - run:
+            name: Validate tag
+            command: |
+              version=$(release validate -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>) || exit $?
+              echo $version >> version.txt
+              cat version.txt
+  - when:
+      condition:
+        and:
+          - not: << parameters.provider >>
+          - not: << parameters.ssh-file-location >>
+      steps:
+        - run:
+            name: Validate tag
+            command: |
+              version=$(release validate -username << parameters.username >> -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
+              echo $version >> version.txt
+              cat version.txt
+  - when:
+      condition:
+        and:
+          - not: << parameters.provider >>
+          - << parameters.ssh-file-location >>
+      steps:
+        - run:
+            name: Validate tag
+            command: |
+              version=$(release validate -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
+              echo $version >> version.txt
+              cat version.txt
+  - persist_to_workspace:
+      root: .
+      paths:
+        - version.txt

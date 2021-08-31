@@ -14,6 +14,13 @@ usage:
             changelog-file-location: << location of changelog file in repository after checkout >>
             provider: bitbucket
             repo: << owner/repo of repository >>
+        # Command will attach the version in a version.txt file which you can access as the following for use with other taggable resources e.g. docker
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Print version
+            command: |
+              cat version.txt
         - create-tag
 
   jobs:
@@ -21,9 +28,16 @@ usage:
       executor: release/default
       steps:
         - checkout
-        - release/create:
+        - release/create-tag:
             username: << username for bitbucket >>
             password: << password / access token for bitbucket >>
             changelog-file-location: << location of changelog file in repository after checkout >>
             provider: bitbucket
             repo: << owner/repo of repository >>
+        # Command will attach the version in a version.txt file which you can access as the following for use with other taggable resources e.g. docker
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Print version
+            command: |
+              cat version.txt

@@ -1,5 +1,5 @@
 description: |
-  Job to checkout and create a tag from the changelog file
+  Job to checkout and validate a tag from the changelog file
 
 parameters:
   username:
@@ -35,13 +35,21 @@ parameters:
     type: string
     default: ""
     description: Owner and Repository Name
+  host:
+    type: string
+    default: ""
+    description: Host of private git provider instance
+  install:
+    type: boolean
+    default: true
+    description: Install release using go get
 
 executor:
   name: default
 
 steps:
   - checkout
-  - create:
+  - validate:
       username: << parameters.username >>
       ssh-file-location: << parameters.ssh-file-location >>
       password: << parameters.password >>
@@ -50,3 +58,5 @@ steps:
       email: << parameters.email >>
       origin: << parameters.origin >>
       repo: << parameters.repo >>
+      host: << parameters.host >>
+      install: << parameters.install >>

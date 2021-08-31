@@ -3,7 +3,7 @@ description: |
   Found here: https://hub.docker.com/_/golang"
 parameters:
   tag:
-    description: "The `cimg/go` Docker image version tag."
+    description: "The `golang` Docker image version tag."
     type: string
     default: "1.17"
 docker:

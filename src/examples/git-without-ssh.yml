@@ -17,15 +17,29 @@ usage:
             email: << email to associate with tag >>
             changelog-file-location: << location of changelog file in repository after checkout >>
             origin: << https url of git repository >>
+        # Command will attach the version in a version.txt file which you can access as the following for use with other taggable resources e.g. docker
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Print version
+            command: |
+              cat version.txt
         - create-tag
   jobs:
     create-tag:
       executor: release/default
       steps:
         - checkout
-        - release/create:
+        - release/create-tag:
             username: << username for provider >>
             password: << password associated with username file >>
             email: << email to associate with tag >>
             changelog-file-location: << location of changelog file in repository after checkout >>
             origin: << https url of git repository >>
+        # Command will attach the version in a version.txt file which you can access as the following for use with other taggable resources e.g. docker
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Print version
+            command: |
+              cat version.txt

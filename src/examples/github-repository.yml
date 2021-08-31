@@ -17,6 +17,13 @@ usage:
             changelog-file-location: << location of changelog file in repository after checkout >>
             provider: github
             repo: << owner/repo of repository >>
+        # Command will attach the version in a version.txt file which you can access as the following for use with other taggable resources e.g. docker
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Print version
+            command: |
+              cat version.txt
         - create-tag
 
   jobs:
@@ -24,9 +31,16 @@ usage:
       executor: release/default
       steps:
         - checkout
-        - release/create:
+        - release/create-tag:
             username: << username for provider >>
             password: << password / access token for provider >>
             changelog-file-location: << location of changelog file in repository after checkout >>
             provider: github
             repo: << owner/repo of repository >>
+        # Command will attach the version in a version.txt file which you can access as the following for use with other taggable resources e.g. docker
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Print version
+            command: |
+              cat version.txt
