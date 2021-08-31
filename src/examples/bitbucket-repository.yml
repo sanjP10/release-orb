@@ -3,7 +3,7 @@ description: >
 usage:
   version: 2.1
   orbs:
-    release: sanjp10/release@1.0.0
+    release: sanjp10/release@2.0.0
   workflows:
     main:
       jobs:
