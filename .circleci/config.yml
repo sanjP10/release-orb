@@ -35,11 +35,11 @@ jobs:
           repo: sanjP10/release-orb
       - attach_workspace:
             # Must be absolute path or relative path from working_directory
-            at: /tmp/
+            at: ./
       - run:
           name: Echo version
           command: |
-            cat /tmp/version.txt
+            cat version.txt
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
