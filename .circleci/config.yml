@@ -68,7 +68,7 @@ workflows:
       - integration-test-1:
           context:
             - release
-      - release/validate-tag:
+      - release/validate:
           context: release
           username: $GITHUB_USERNAME
           password: $GITHUB_TOKEN
@@ -96,7 +96,7 @@ workflows:
             branches:
               only:
                 - main
-      - release/create-tag:
+      - release/create:
           context: release
           username: $GITHUB_USERNAME
           password: $GITHUB_TOKEN
