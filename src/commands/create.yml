@@ -64,6 +64,7 @@ steps:
             name: Create tag
             command: |
               version=$(release create -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>) || exit $?
+              echo $version >> version.txt
   - when:
       condition:
         and:
@@ -77,6 +78,7 @@ steps:
             name: Create tag
             command: |
               version=$(release create -username << parameters.username >> -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>  -host << parameters.host >>) || exit $?
+              echo $version >> version.txt
   - when:
       condition:
         and:
@@ -87,6 +89,7 @@ steps:
             name: Create tag
             command: |
               version=$(release create -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >> -host << parameters.host >>) || exit $?
+              echo $version >> version.txt
   - when:
       condition:
         and:
@@ -97,6 +100,7 @@ steps:
             name: Create tag
             command: |
               version=$(release create -password << parameters.password >> -repo << parameters.repo >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -provider << parameters.provider >>) || exit $?
+              echo $version >> version.txt
   - when:
       condition:
         and:
@@ -107,6 +111,7 @@ steps:
             name: Create tag
             command: |
               version=$(release create -username << parameters.username >> -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
+              echo $version >> version.txt
   - when:
       condition:
         and:
@@ -117,10 +122,7 @@ steps:
             name: Create tag
             command: |
               version=$(release create -username << parameters.username >> -ssh << parameters.ssh-file-location >>  -password << parameters.password >> -origin << parameters.origin >> -changelog << parameters.changelog-file-location >> -hash $CIRCLE_SHA1 -email << parameters.email >>) || $?
-  - run:
-      name: Save to file
-      command: |
-        echo $version >> version.txt
+              echo $version >> version.txt
   - persist_to_workspace:
       root: .
       # Must be relative path from root
