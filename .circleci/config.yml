@@ -91,7 +91,7 @@ workflows:
           publish-version-tag: false
           requires:
             - integration-test-1
-            - release/validate
+            - release/validate-tag
           filters:
             branches:
               only:
