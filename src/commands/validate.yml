@@ -70,7 +70,7 @@ steps:
          - not:
             and:
               - equal: ["gitlab", << parameters.provider >>]
-              - equal: ["", << parameters.provider >>]
+              - not: << parameters.provider >>
          - << parameters.host >>
       steps:
         - run:
