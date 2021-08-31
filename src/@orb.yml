@@ -2,7 +2,7 @@ version: 2.1
 
 description: >
   Orb to validate and create tags using https://github.com/sanjP10/release tool.
-  Tool is installed via golang, so executor requires golang for installation.
+  Note: Tool is installed via golang, so an executor requires golang for installation.
 display:
   home_url: "https://github.com/sanjP10/release"
   source_url: "https://github.com/sanjP10/release-orb"

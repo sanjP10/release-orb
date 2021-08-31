@@ -64,7 +64,9 @@ workflows:
       - integration-test-1:
           context:
             - release
-      - echo $version
+      - run:
+          command: |
+            echo $version
       - release/validate:
           context: release
           username: $GITHUB_USERNAME
