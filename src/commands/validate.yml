@@ -51,7 +51,7 @@ steps:
         - run:
             name: Install release
             command: |
-              GO111MODULE=on go get -u github.com/sanjP10/release
+              go install github.com/sanjP10/release@3.2.1
   - when:
       condition:
         not:
