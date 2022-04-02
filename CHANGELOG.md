@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.2
+### Updated
+* Updated to use 3.2.1
+* Use docker container golang 18 alpine
+
 ## 2.0.1
 ### Fixed
 * Fixed examples
