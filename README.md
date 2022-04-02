@@ -12,6 +12,19 @@ Example use as well as a list of available executors, commands, and jobs are ava
 
 Follow the official publishing orb [documents](https://circleci.com/docs/2.0/creating-orbs/#issue-a-new-release)
 
+## Dev setup
+To set up a dev orb to test with run the following.
+
+```bash
+circleci orb pack ./src | circleci orb publish - sanjp10/release@dev:alpha
+```
+
+## Updating Orb
+Publish a semver version of the orb. relies on 
+the commit subject containing the text `[semver:patch|minor|major|skip]`
+as that will determine whether a patch, minor or major version will be published
+or if publishing should be skipped.
+
 ## Resources
 
 [CircleCI Orb Registry Page][reg-page] - The official registry page of this orb for all versions, executors, commands, and jobs described.
