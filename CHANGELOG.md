@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3
+### Updated
+* Updated to use 3.2.2
+
 ## 2.0.2
 ### Updated
 * Updated to use 3.2.1

@@ -51,7 +51,7 @@ steps:
         - run:
             name: Install release
             command: |
-              go install github.com/sanjP10/release@3.2.1
+              go install github.com/sanjP10/release@3.2.2
   - when:
       condition:
         not:
