@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.5
+### Updated
+* Updated docker container to use golang 1.24 alpine
+
 ## 2.0.4
 ### Updated
 * Updated docker container to use golang 1.21 alpine
